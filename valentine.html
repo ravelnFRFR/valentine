@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<title>Saint Valentin 💖</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(135deg, #ff758c, #ff7eb3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Segoe UI", sans-serif;
+  overflow: hidden;
+
+  cursor: url("hello-kitty-cursor.png"), auto;
+}
+
+/* Carte */
+.card {
+  background: white;
+  padding: 40px 50px;
+  border-radius: 28px;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+  max-width: 420px;
+  animation: pop 0.8s ease;
+}
+
+@keyframes pop {
+  from { transform: scale(0.7); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+h1 {
+  color: #d81b60;
+}
+
+.gif {
+  width: 200px;
+  margin: 15px auto;
+}
+
+/* Boutons */
+.buttons {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-around;
+}
+
+button {
+  border: none;
+  border-radius: 16px;
+  padding: 14px 30px;
+  font-size: 18px;
+  cursor: url("hello-kitty-cursor.png"), pointer;
+  transition: 0.3s ease;
+  z-index: 5;
+}
+
+#yesBtn {
+  background: #4CAF50;
+  color: white;
+  transform: scale(1);
+}
+
+#noBtn {
+  background: #e53935;
+  color: white;
+}
+
+/* Final */
+.final {
+  display: none;
+}
+
+.final h1 {
+  font-size: 42px;
+}
+
+.bigGif {
+  width: 260px;
+  margin: 20px auto;
+}
+
+/* Cœurs */
+.heart {
+  position: fixed;
+  top: -50px;
+  font-size: 25px;
+  animation: fall linear forwards;
+  pointer-events: none;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="card" id="main">
+  <h1>💘 Veux-tu être ma Valentine ? 💘</h1>
+
+  <img class="gif"
+    src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif"
+  />
+
+  <div class="buttons">
+    <button id="yesBtn">Oui 💚</button>
+    <button id="noBtn">Non 😭</button>
+  </div>
+</div>
+
+<div class="card final" id="final">
+  <h1>JE T’AIME TELLEMENT ❤️</h1>
+
+  <img class="bigGif"
+    src="https://media.giphy.com/media/l4FGuhL4U2WyjdkaY/giphy.gif"
+  />
+
+  <p>Merci d’avoir dit oui mon amour 😘</p>
+</div>
+
+<!-- MUSIQUE -->
+<audio id="loveSong" src="oui-jeremih.mp3"></audio>
+
+<script>
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const main = document.getElementById("main");
+const final = document.getElementById("final");
+const song = document.getElementById("loveSong");
+
+let scale = 1;
+
+const noTexts = [
+  "Non 😐",
+  "T’es sûr(e) ? 😳",
+  "Réfléchis...",
+  "Allez stp 🥺",
+  "Dis oui 😭",
+  "Je vais pleurer 💔",
+  "Dernière chance..."
+];
+
+let clicks = 0;
+
+noBtn.addEventListener("click", () => {
+  clicks++;
+
+  noBtn.textContent =
+    noTexts[Math.min(clicks, noTexts.length - 1)];
+
+  scale += 0.4;
+  yesBtn.style.transform = `scale(${scale})`;
+
+  if (scale > 3.5) {
+    yesBtn.style.zIndex = "50";
+  }
+});
+
+yesBtn.addEventListener("click", () => {
+  main.style.display = "none";
+  final.style.display = "block";
+
+  song.volume = 0.8;
+  song.play();
+
+  rainHearts();
+});
+
+function rainHearts() {
+  setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.textContent = "❤️";
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration =
+      2 + Math.random() * 3 + "s";
+    heart.style.fontSize =
+      20 + Math.random() * 25 + "px";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+      heart.remove();
+    }, 5000);
+  }, 200);
+}
+</script>
+
+</body>
+</html>
